@@ -13,8 +13,6 @@ html{scroll-behavior:smooth}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;line-height:1.5;overflow-x:hidden;min-height:100vh}
 #bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
- 
-/* ─ NAV ─ */
 nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;align-items:center;gap:1.5rem;padding:0 2rem;background:rgba(4,4,12,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;cursor:pointer}
 .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--red));border-radius:8px;display:grid;place-items:center;font-size:18px;animation:logoPulse 3s ease-in-out infinite}
@@ -39,8 +37,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .nav-tg{display:flex;align-items:center;gap:7px;padding:8px 14px;background:linear-gradient(135deg,#229ED9,#1a80b6);border-radius:8px;text-decoration:none;color:#fff;font-weight:700;font-size:.82rem;transition:transform .2s,box-shadow .2s;flex-shrink:0}
 .nav-tg:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,158,217,.4)}
 .nav-tg svg{width:16px;height:16px}
- 
-/* ─ HERO ─ */
 .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 2.5rem 5rem;overflow:hidden;z-index:1}
 .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.28) saturate(1.3);transition:all 1.2s ease;transform:scale(1.06)}
 .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(4,4,12,1) 0%,rgba(4,4,12,.75) 45%,transparent 80%),linear-gradient(to top,rgba(4,4,12,1) 0%,rgba(4,4,12,.55) 35%,transparent 65%)}
@@ -60,8 +56,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .hero-dots{position:absolute;right:2.5rem;bottom:5rem;display:flex;flex-direction:column;gap:8px;z-index:2}
 .hero-dot{width:8px;height:8px;border-radius:50%;background:var(--text2);cursor:pointer;transition:all .2s;border:none}
 .hero-dot.active{background:var(--accent);box-shadow:0 0 8px var(--accent);transform:scale(1.3)}
- 
-/* ─ STATS ─ */
 .stats-bar{position:relative;z-index:1;display:flex;background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .stat-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:1.3rem 1rem;border-right:1px solid var(--border);position:relative;overflow:hidden}
 .stat-item:last-child{border-right:none}
@@ -69,27 +63,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .stat-item:hover::before{transform:scaleX(1)}
 .stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-label{font-size:.72rem;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
- 
-/* ─ SECTIONS ─ */
 .section{position:relative;z-index:1;padding:3rem 2rem}
 .section-header{display:flex;align-items:center;gap:14px;margin-bottom:1.8rem}
 .section-line{width:4px;height:26px;background:linear-gradient(180deg,var(--accent),var(--red));border-radius:2px;flex-shrink:0}
 .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.65rem;letter-spacing:3px}
 .section-sub{font-size:.8rem;color:var(--text2);margin-left:auto;cursor:pointer;transition:color .2s}
 .section-sub:hover{color:var(--accent)}
- 
 .stabs{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
 .stab{padding:7px 18px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .2s}
 .stab:hover{border-color:var(--accent);color:var(--text)}
 .stab.active{background:linear-gradient(135deg,var(--accent),var(--accentH));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(79,138,255,.35)}
- 
 .genre-tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:1.8rem;scrollbar-width:none}
 .genre-tabs::-webkit-scrollbar{display:none}
 .gtab{flex-shrink:0;padding:6px 15px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .gtab:hover{border-color:var(--accent);color:var(--text)}
 .gtab.active{background:linear-gradient(135deg,var(--accent),var(--accentH));border-color:transparent;color:#fff}
- 
-/* ─ GRID ─ */
 .anime-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(162px,1fr));gap:1.1rem}
 .anime-card{position:relative;border-radius:10px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;animation:cardIn .4s ease backwards}
 .anime-card:hover{transform:translateY(-7px) scale(1.02);box-shadow:0 16px 40px rgba(0,0,0,.65),0 0 0 1px rgba(79,138,255,.35);border-color:rgba(79,138,255,.4);z-index:10}
@@ -107,19 +95,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .card-play-btn{width:52px;height:52px;background:linear-gradient(135deg,var(--accent),var(--accentH));border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px rgba(79,138,255,.6)}
 .card-hover-title{font-size:.8rem;font-weight:700;text-align:center;line-height:1.3}
 .card-dub{font-size:.62rem;padding:2px 7px;background:rgba(79,138,255,.15);border-radius:3px;color:var(--accent);font-weight:600}
- 
-/* ─ LOAD MORE ─ */
 .load-more-wrap{text-align:center;padding:2rem 0}
 .btn-load{padding:12px 34px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;text-transform:uppercase}
 .btn-load:hover{border-color:var(--accent);color:var(--accent)}
 .btn-load:disabled{opacity:.4;cursor:not-allowed}
- 
-/* ─ SPINNER ─ */
 .spinner-wrap{display:flex;justify-content:center;padding:3rem}
 .spinner{width:42px;height:42px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
- 
-/* ─ MODAL ─ */
 .modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.87);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:1080px;max-height:93vh;overflow-y:auto;position:relative;animation:modalIn .3s cubic-bezier(.34,1.56,.64,1) forwards;scrollbar-width:thin}
@@ -142,8 +124,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .mt-gray{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border)}
 .mt-green{background:rgba(0,200,100,.15);color:#00c864;border:1px solid rgba(0,200,100,.3)}
 .modal-desc{font-family:'Noto Sans JP',sans-serif;font-weight:300;font-size:.86rem;color:var(--text2);line-height:1.8;max-height:95px;overflow-y:auto;scrollbar-width:thin}
- 
-/* ─ PLAYER ─ */
 .player-wrap{width:100%}
 .pctrls{display:flex;gap:8px;margin-bottom:.8rem;flex-wrap:wrap;align-items:flex-end}
 .sel{position:relative;flex:1;min-width:120px}
@@ -151,7 +131,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .sel select{width:100%;padding:8px 26px 8px 10px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:600;outline:none;cursor:pointer;appearance:none;transition:border-color .2s}
 .sel select:focus{border-color:var(--accent)}
 .sel::after{content:'▾';position:absolute;right:9px;bottom:8px;color:var(--text2);pointer-events:none;font-size:.8rem}
- 
 .player-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
 .player-frame iframe,.player-frame video{position:absolute;inset:0;width:100%;height:100%;border:none}
 .player-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:linear-gradient(135deg,var(--card),var(--bg3));text-align:center;padding:1.5rem}
@@ -159,25 +138,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;ali
 .pp-text{color:var(--text2);font-size:.85rem;line-height:1.7;max-width:300px}
 .pp-btn{padding:10px 24px;background:linear-gradient(135deg,var(--accent),var(--accentH));border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;text-transform:uppercase;text-decoration:none;display:inline-block}
 .pp-btn:hover{transform:translateY(-2px);box-shadow:var(--glow)}
- 
 .pstatus{font-size:.73rem;padding:5px 10px;border-radius:5px;display:inline-flex;align-items:center;gap:5px;font-weight:700;white-space:nowrap}
 .ps-ok{background:rgba(0,200,100,.15);color:#00c864;border:1px solid rgba(0,200,100,.3)}
 .ps-err{background:rgba(230,57,70,.15);color:var(--red);border:1px solid rgba(230,57,70,.3)}
 .ps-load{background:rgba(79,138,255,.15);color:var(--accent);border:1px solid rgba(79,138,255,.3)}
- 
 .ep-label{font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin:.8rem 0 .4rem}
 .ep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:5px;max-height:118px;overflow-y:auto;padding:.7rem;background:var(--card);border-radius:10px;border:1px solid var(--border);scrollbar-width:thin}
 .ep-btn{padding:6px 4px;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
 .ep-btn:hover{border-color:var(--accent);color:var(--text)}
 .ep-btn.active{background:linear-gradient(135deg,var(--accent),var(--accentH));border-color:transparent;color:#fff}
- 
-/* ─ SEARCH PAGE ─ */
 #searchPage{display:none;position:relative;z-index:1;padding:5rem 2rem 3rem;min-height:100vh}
 #searchPage.open{display:block}
 .search-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;margin-bottom:.3rem}
 .search-header p{color:var(--text2);font-size:.85rem;margin-bottom:1.5rem}
- 
-/* ─ FOOTER ─ */
 footer{position:relative;z-index:1;background:var(--card);border-top:1px solid var(--border);padding:2.5rem 2rem 1.5rem;margin-top:2rem}
 .footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
 .footer-brand p{color:var(--text2);font-size:.83rem;line-height:1.7;margin-top:.8rem;font-family:'Noto Sans JP',sans-serif;font-weight:300}
@@ -191,11 +164,8 @@ footer{position:relative;z-index:1;background:var(--card);border-top:1px solid v
 .footer-bottom{border-top:1px solid var(--border);padding-top:1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
 .footer-bottom p{font-size:.78rem;color:var(--text2)}
 .footer-bottom span{color:var(--accent)}
- 
-/* ─ TOAST ─ */
-.toast{position:fixed;bottom:2rem;right:2rem;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:.86rem;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:300px}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:.86rem;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:320px}
 .toast.show{transform:translateY(0);opacity:1}
- 
 @media(max-width:900px){.modal-inner{grid-template-columns:1fr}.modal-info{padding-left:0}.modal-poster{max-width:170px;margin:0 auto;display:block}.footer-top{grid-template-columns:1fr}.nav-links{display:none}.section{padding:2rem 1rem}.hero{padding:0 1rem 4rem}}
 @media(max-width:580px){.anime-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem}.modal-inner{padding:1rem}}
 </style>
@@ -239,7 +209,6 @@ footer{position:relative;z-index:1;background:var(--card);border-top:1px solid v
 </div>
  
 <main id="mainContent">
-  <!-- ANILIBRIA — живые тайтлы -->
   <section class="section" id="aniSection">
     <div class="section-header">
       <div class="section-line"></div>
@@ -249,7 +218,6 @@ footer{position:relative;z-index:1;background:var(--card);border-top:1px solid v
     <div class="anime-grid" id="aniGrid"><div class="spinner-wrap"><div class="spinner"></div></div></div>
   </section>
  
-  <!-- TOP MAL -->
   <section class="section" id="topSection">
     <div class="section-header">
       <div class="section-line"></div>
@@ -259,7 +227,6 @@ footer{position:relative;z-index:1;background:var(--card);border-top:1px solid v
     <div class="anime-grid" id="topGrid"><div class="spinner-wrap"><div class="spinner"></div></div></div>
   </section>
  
-  <!-- CATALOG -->
   <section class="section" id="catalog">
     <div class="section-header">
       <div class="section-line"></div>
@@ -334,13 +301,10 @@ footer{position:relative;z-index:1;background:var(--card);border-top:1px solid v
     <div class="modal-inner" id="mInner"></div>
   </div>
 </div>
- 
 <div class="toast" id="toast"></div>
  
 <script>
-/* ══════════════════════════════════════
-   CANVAS BG
-══════════════════════════════════════ */
+/* ══ CANVAS ══ */
 (()=>{
   const c=document.getElementById('bgCanvas'),x=c.getContext('2d');
   let W,H;const rs=()=>{W=c.width=innerWidth;H=c.height=innerHeight};rs();addEventListener('resize',rs);
@@ -355,54 +319,108 @@ footer{position:relative;z-index:1;background:var(--card);border-top:1px solid v
   })();
 })();
  
-/* ══════════════════════════════════════
-   CONFIG
-══════════════════════════════════════ */
-/* Anilibria v2.13 — актуальная стабильная версия с CORS */
-const ANI   = 'https://api.anilibria.tv/v2.13';
+/* ══ CONFIG ══ */
 const JIKAN = 'https://api.jikan.moe/v4';
 const DUBS  = ['Anilibria','2x2','AniDub','Студийная банда','Dream Cast','SHIZA','Reanimedia'];
 const sleep = ms=>new Promise(r=>setTimeout(r,ms));
  
-async function get(url){
-  const r=await fetch(url);
-  if(!r.ok) throw new Error(r.status);
+/*
+  Anilibria заблокирована в РФ — используем цепочку прокси.
+  corsproxy.io и allorigins.win — зарубежные серверы, обходят блокировку РКН.
+  Пробуем каждый по очереди до успеха.
+*/
+const ANI_BASE = 'https://api.anilibria.tv/v2.13';
+const PROXIES = [
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+];
+ 
+let workingProxy = null; // кэшируем рабочий прокси
+ 
+async function aniFetch(path) {
+  const fullUrl = ANI_BASE + path;
+ 
+  // Сначала пробуем напрямую (вдруг нет блокировки)
+  try {
+    const r = await fetch(fullUrl, {signal: AbortSignal.timeout(4000)});
+    if (r.ok) return r.json();
+  } catch(e) {}
+ 
+  // Если есть кэшированный рабочий прокси — используем его
+  if (workingProxy !== null) {
+    try {
+      const proxyUrl = PROXIES[workingProxy](fullUrl);
+      const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(8000)});
+      if (r.ok) {
+        const raw = await r.json();
+        // allorigins возвращает {contents: "..."}
+        return raw.contents ? JSON.parse(raw.contents) : raw;
+      }
+    } catch(e) { workingProxy = null; }
+  }
+ 
+  // Перебираем все прокси
+  for (let i = 0; i < PROXIES.length; i++) {
+    try {
+      const proxyUrl = PROXIES[i](fullUrl);
+      const r = await fetch(proxyUrl, {signal: AbortSignal.timeout(8000)});
+      if (r.ok) {
+        const raw = await r.json();
+        const data = raw.contents ? JSON.parse(raw.contents) : raw;
+        workingProxy = i; // запоминаем рабочий
+        return data;
+      }
+    } catch(e) { continue; }
+  }
+ 
+  throw new Error('Все прокси недоступны');
+}
+ 
+async function jikFetch(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(r.status);
   return r.json();
 }
  
-/* ══════════════════════════════════════
-   HERO
-══════════════════════════════════════ */
+/* ══ HERO ══ */
 let heroList=[],heroIdx=0,heroTimer,heroSrc='ani';
  
 async function loadHero(){
   try{
-    /* Anilibria v2.13 — getUpdates */
-    const d=await get(`${ANI}/getUpdates?limit=8&filter=id,names,posters,description,player,genres`);
-    heroList=d.list||[];heroSrc='ani';
+    const d = await aniFetch('/getUpdates?limit=8&filter=id,names,posters,description,player,genres');
+    heroList = d.list||[];
+    heroSrc = 'ani';
   }catch(e){
-    try{const d=await get(`${JIKAN}/top/anime?filter=airing&limit=8`);heroList=d.data||[];heroSrc='jik';}
-    catch(e2){document.getElementById('heroContent').innerHTML='<h1 style="font-family:\'Bebas Neue\',sans-serif;font-size:3rem;letter-spacing:3px">StormAnime</h1>';return;}
+    try{
+      const d = await jikFetch(`${JIKAN}/top/anime?filter=airing&limit=8`);
+      heroList = d.data||[];
+      heroSrc = 'jik';
+    }catch(e2){
+      document.getElementById('heroContent').innerHTML='<h1 style="font-family:\'Bebas Neue\',sans-serif;font-size:3rem;letter-spacing:3px">StormAnime</h1>';
+      return;
+    }
   }
-  buildDots();showSlide(0);
-  heroTimer=setInterval(()=>{heroIdx=(heroIdx+1)%heroList.length;showSlide(heroIdx);},6500);
+  buildDots(); showSlide(0);
+  heroTimer = setInterval(()=>{heroIdx=(heroIdx+1)%heroList.length;showSlide(heroIdx);},6500);
 }
+ 
 function buildDots(){document.getElementById('heroDots').innerHTML=heroList.map((_,i)=>`<button class="hero-dot${i===0?' active':''}" onclick="jumpHero(${i})"></button>`).join('');}
 function jumpHero(i){clearInterval(heroTimer);heroIdx=i;showSlide(i);heroTimer=setInterval(()=>{heroIdx=(heroIdx+1)%heroList.length;showSlide(heroIdx);},6500);}
  
 function showSlide(i){
   const a=heroList[i];if(!a)return;
-  const isAni=heroSrc==='ani';
-  const bg  = isAni?(a.posters?.original?.url?`https://www.anilibria.tv${a.posters.original.url}`:''):(a.images?.jpg?.large_image_url||'');
-  const ttl = isAni?(a.names?.ru||a.names?.en||''):(a.title_russian||a.title||'');
-  const desc= isAni?(a.description||'').slice(0,200)+'…':((a.synopsis||'').slice(0,200)+'…');
-  const sc  = !isAni&&a.score?`⭐ ${a.score}`:'';
-  const yr  = !isAni&&a.year?a.year:'';
-  const ep  = isAni?(a.player?.episodes?.last?`${a.player.episodes.last} эп.`:'Онгоинг'):(a.episodes?`${a.episodes} эп.`:'');
-  const id  = isAni?'ani_'+a.id:'mal_'+a.mal_id;
+  const isA=heroSrc==='ani';
+  const bg  =isA?(a.posters?.original?.url?`https://www.anilibria.tv${a.posters.original.url}`:''):(a.images?.jpg?.large_image_url||'');
+  const ttl =isA?(a.names?.ru||a.names?.en||''):(a.title_russian||a.title||'');
+  const desc=isA?(a.description||'').slice(0,200)+'…':((a.synopsis||'').slice(0,200)+'…');
+  const sc  =!isA&&a.score?`⭐ ${a.score}`:'';
+  const yr  =!isA&&a.year?a.year:'';
+  const ep  =isA?(a.player?.episodes?.last?`${a.player.episodes.last} эп.`:'Онгоинг'):(a.episodes?`${a.episodes} эп.`:'');
+  const id  =isA?'ani_'+a.id:'mal_'+a.mal_id;
   document.getElementById('heroBg').style.backgroundImage=`url(${bg})`;
   document.getElementById('heroContent').innerHTML=`
-    <div class="hero-badge">⚡ ${isAni?'Anilibria — RU':'В эфире'}</div>
+    <div class="hero-badge">⚡ ${isA?'Anilibria — RU':'В эфире'}</div>
     <h1>${ttl}</h1>
     <div class="hero-meta">${sc?`<span class="hero-score">${sc}</span>`:''}${yr?`<span class="hero-tag">${yr}</span>`:''}${ep?`<span class="hero-tag">${ep}</span>`:''}</div>
     <p class="hero-desc">${desc}</p>
@@ -413,65 +431,51 @@ function showSlide(i){
   document.querySelectorAll('.hero-dot').forEach((d,idx)=>d.classList.toggle('active',idx===i));
 }
  
-/* ══════════════════════════════════════
-   CARDS
-══════════════════════════════════════ */
+/* ══ CARDS ══ */
 function mkCard(a,i=0){
-  const isAni=a.__s==='ani';
-  const poster=isAni?(a.posters?.medium?.url?`https://www.anilibria.tv${a.posters.medium.url}`:''):(a.images?.jpg?.image_url||'');
-  const title =isAni?(a.names?.ru||a.names?.en||'?'):(a.title_russian||a.title||'?');
-  const score =a.score?`⭐${a.score}`:'';
-  const year  =a.year||'';
-  const id    =isAni?'ani_'+a.id:'mal_'+a.mal_id;
+  const isA=a.__s==='ani';
+  const poster=isA?(a.posters?.medium?.url?`https://www.anilibria.tv${a.posters.medium.url}`:''):(a.images?.jpg?.image_url||'');
+  const title=isA?(a.names?.ru||a.names?.en||'?'):(a.title_russian||a.title||'?');
+  const score=a.score?`⭐${a.score}`:'';
+  const year=a.year||'';
+  const id=isA?'ani_'+a.id:'mal_'+a.mal_id;
   return `<div class="anime-card" style="animation-delay:${i*.04}s" onclick="openModal('${id}')">
     ${poster?`<img class="card-poster" src="${poster}" alt="" loading="lazy">`:`<div class="card-poster-ph">🎌</div>`}
     ${score?`<div class="card-score">${score}</div>`:''}
-    ${isAni?`<div class="card-ani-badge">🎌 RU</div>`:`<div class="card-type">${a.type||'TV'}</div>`}
+    ${isA?`<div class="card-ani-badge">🎌 RU</div>`:`<div class="card-type">${a.type||'TV'}</div>`}
     <div class="card-overlay"><div class="card-title">${title}</div>${year?`<div class="card-year">${year}</div>`:''}</div>
     <div class="card-hover">
       <div class="card-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
       <div class="card-hover-title">${title}</div>
-      <span class="card-dub">${isAni?'Anilibria':DUBS[parseInt(a.mal_id||0)%DUBS.length]}</span>
+      <span class="card-dub">${isA?'Anilibria':DUBS[parseInt(a.mal_id||0)%DUBS.length]}</span>
     </div>
   </div>`;
 }
 const renderCards=(list,g)=>{if(!list?.length){g.innerHTML='<p style="color:var(--text2);padding:2rem">Ничего не найдено.</p>';return;}g.innerHTML=list.map((a,i)=>mkCard(a,i)).join('');};
 const appendCards=(list,g)=>{const d=document.createElement('div');d.style.display='contents';d.innerHTML=list.map((a,i)=>mkCard(a,i)).join('');g.appendChild(d);};
  
-/* ══════════════════════════════════════
-   ANILIBRIA SECTION — v2.13 API
-══════════════════════════════════════ */
+/* ══ ANILIBRIA SECTION ══ */
 async function loadAnilibria(){
   const g=document.getElementById('aniGrid');
   g.innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';
   try{
-    const d=await get(`${ANI}/getUpdates?limit=12&filter=id,names,posters,player,genres,description`);
+    const d=await aniFetch('/getUpdates?limit=12&filter=id,names,posters,player,genres,description');
     renderCards((d.list||[]).map(x=>({...x,__s:'ani'})),g);
   }catch(e){
-    // fallback: try without filter param
-    try{
-      const d=await get(`${ANI}/getUpdates?limit=12`);
-      renderCards((d.list||[]).map(x=>({...x,__s:'ani'})),g);
-    }catch(e2){
-      g.innerHTML='<p style="color:var(--text2);padding:1rem">⚠️ Anilibria временно недоступна. Попробуйте позже.</p>';
-    }
+    g.innerHTML='<p style="color:var(--text2);padding:1rem;font-size:.9rem">⚠️ Anilibria недоступна в вашем регионе. Раздел «Каталог → Jikan» работает.</p>';
   }
 }
  
-/* ══════════════════════════════════════
-   TOP JIKAN
-══════════════════════════════════════ */
+/* ══ TOP JIKAN ══ */
 async function loadTopJikan(){
   const g=document.getElementById('topGrid');
   g.innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';
   await sleep(400);
-  try{const d=await get(`${JIKAN}/top/anime?type=tv&limit=12`);renderCards(d.data||[],g);}
+  try{const d=await jikFetch(`${JIKAN}/top/anime?type=tv&limit=12`);renderCards(d.data||[],g);}
   catch(e){g.innerHTML='<p style="color:var(--text2);padding:1rem">Ошибка загрузки.</p>';}
 }
  
-/* ══════════════════════════════════════
-   CATALOG
-══════════════════════════════════════ */
+/* ══ CATALOG ══ */
 let catPage=1,aniCatPage=1,catGenre='all',catSrc='jikan',catLoading=false;
  
 async function loadCatalog(reset=false){
@@ -479,16 +483,16 @@ async function loadCatalog(reset=false){
   if(reset){catPage=1;aniCatPage=1;g.innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';}
   catLoading=true;
   const btn=document.getElementById('moreBtn');if(btn)btn.disabled=true;
-  await sleep(reset?500:100);
+  await sleep(reset?400:100);
   try{
     if(catSrc==='jikan'){
       const url=catGenre==='all'
         ?`${JIKAN}/anime?page=${catPage}&limit=20&order_by=popularity&sfw=true`
         :`${JIKAN}/anime?genres=${catGenre}&page=${catPage}&limit=20&order_by=popularity`;
-      const d=await get(url);
+      const d=await jikFetch(url);
       reset?renderCards(d.data||[],g):appendCards(d.data||[],g);catPage++;
     }else{
-      const d=await get(`${ANI}/getUpdates?page=${aniCatPage}&items_per_page=20&filter=id,names,posters,player,genres`);
+      const d=await aniFetch(`/getUpdates?page=${aniCatPage}&items_per_page=20&filter=id,names,posters,player,genres`);
       const list=(d.list||[]).map(x=>({...x,__s:'ani'}));
       reset?renderCards(list,g):appendCards(list,g);aniCatPage++;
     }
@@ -510,9 +514,7 @@ document.getElementById('genreTabs').addEventListener('click',e=>{
 });
 function goAnilibria(){showHome();setTimeout(()=>{document.getElementById('catalog').scrollIntoView({behavior:'smooth'});switchCatSrc('anilibria',document.getElementById('stab-ani'));},60);}
  
-/* ══════════════════════════════════════
-   SEARCH
-══════════════════════════════════════ */
+/* ══ SEARCH ══ */
 let sTimer,sPage=1,lastQ='',sSrc='jikan';
  
 document.getElementById('navInput').addEventListener('input',e=>{
@@ -529,19 +531,19 @@ async function doDropdown(q){
   dd.classList.add('show');
   try{
     const [jR,aR]=await Promise.allSettled([
-      get(`${JIKAN}/anime?q=${encodeURIComponent(q)}&limit=3`),
-      get(`${ANI}/searchTitles?search=${encodeURIComponent(q)}&limit=3&filter=id,names,posters`)
+      jikFetch(`${JIKAN}/anime?q=${encodeURIComponent(q)}&limit=3`),
+      aniFetch(`/searchTitles?search=${encodeURIComponent(q)}&limit=3&filter=id,names,posters`)
     ]);
     const jL=jR.status==='fulfilled'?(jR.value.data||[]):[];
     const aL=aR.status==='fulfilled'?(aR.value.list||[]).map(x=>({...x,__s:'ani'})):[];
     const all=[...aL,...jL].slice(0,7);
     if(!all.length){dd.innerHTML='<p style="padding:1rem;color:var(--text2)">Ничего не найдено</p>';return;}
     dd.innerHTML=all.map(a=>{
-      const isAni=a.__s==='ani';
-      const poster=isAni?(a.posters?.medium?.url?`https://www.anilibria.tv${a.posters.medium.url}`:''):(a.images?.jpg?.image_url||'');
-      const title=isAni?(a.names?.ru||a.names?.en||'?'):(a.title_russian||a.title||'?');
-      const id=isAni?'ani_'+a.id:'mal_'+a.mal_id;
-      const meta=isAni?'🎌 Anilibria':`MAL • ${a.type||'TV'} • ⭐${a.score||'?'}`;
+      const isA=a.__s==='ani';
+      const poster=isA?(a.posters?.medium?.url?`https://www.anilibria.tv${a.posters.medium.url}`:''):(a.images?.jpg?.image_url||'');
+      const title=isA?(a.names?.ru||a.names?.en||'?'):(a.title_russian||a.title||'?');
+      const id=isA?'ani_'+a.id:'mal_'+a.mal_id;
+      const meta=isA?'🎌 Anilibria':`MAL • ${a.type||'TV'} • ⭐${a.score||'?'}`;
       return `<div class="sd-item" onclick="openModal('${id}');document.getElementById('sdrop').classList.remove('show')"><img src="${poster}" onerror="this.style.display='none'" alt=""><div><div class="sd-title">${title}</div><div class="sd-meta">${meta}</div></div></div>`;
     }).join('');
   }catch(e){dd.innerHTML='<p style="padding:1rem;color:var(--text2)">Ошибка</p>';}
@@ -560,11 +562,11 @@ async function doFullSearch(q){
 async function runSearch(q,pg,reset){
   try{
     if(sSrc==='jikan'){
-      const d=await get(`${JIKAN}/anime?q=${encodeURIComponent(q)}&page=${pg}&limit=20`);
+      const d=await jikFetch(`${JIKAN}/anime?q=${encodeURIComponent(q)}&page=${pg}&limit=20`);
       reset?renderCards(d.data||[],document.getElementById('sGrid')):appendCards(d.data||[],document.getElementById('sGrid'));
       document.getElementById('sqCount').textContent=`Найдено: ${d.pagination?.items?.total||d.data?.length||0}`;
     }else{
-      const d=await get(`${ANI}/searchTitles?search=${encodeURIComponent(q)}&page=${pg}&items_per_page=20&filter=id,names,posters,player`);
+      const d=await aniFetch(`/searchTitles?search=${encodeURIComponent(q)}&page=${pg}&items_per_page=20&filter=id,names,posters,player`);
       const list=(d.list||[]).map(x=>({...x,__s:'ani'}));
       reset?renderCards(list,document.getElementById('sGrid')):appendCards(list,document.getElementById('sGrid'));
       document.getElementById('sqCount').textContent=`Найдено: ${list.length}`;
@@ -583,14 +585,12 @@ async function loadSection(type){
     catSrc='jikan';catGenre='all';
     document.getElementById('catGrid').innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';
     const m={movie:'Movie',tv:'TV',ona:'ONA'};
-    const d=await get(`${JIKAN}/anime?type=${m[type]}&page=1&limit=20&order_by=popularity`);
+    const d=await jikFetch(`${JIKAN}/anime?type=${m[type]}&page=1&limit=20&order_by=popularity`);
     renderCards(d.data||[],document.getElementById('catGrid'));
   }
 }
  
-/* ══════════════════════════════════════
-   MODAL
-══════════════════════════════════════ */
+/* ══ MODAL ══ */
 let curAniId=null,curEp=1;
  
 async function openModal(id){
@@ -603,29 +603,23 @@ async function openModal(id){
   }catch(e){document.getElementById('mInner').innerHTML='<p style="color:var(--text2);padding:2rem;grid-column:1/-1">Ошибка загрузки. Попробуйте ещё раз.</p>';}
 }
  
-/* ────────────────────────────────────
-   ANILIBRIA MODAL — iframe плеер
-   Официальный публичный плеер:
-   https://www.anilibria.tv/public/iframe.php?id={ID}
-──────────────────────────────────── */
+/* ── ANILIBRIA MODAL ── */
 async function modalAni(id){
   curAniId=id;
-  const d=await get(`${ANI}/getTitle?id=${id}&filter=id,names,posters,description,player,genres,season,status,type`);
+  const d=await aniFetch(`/getTitle?id=${id}&filter=id,names,posters,description,player,genres,season,status,type,code`);
   const a=d;
   const poster=a.posters?.original?.url?`https://www.anilibria.tv${a.posters.original.url}`:'';
   const title=a.names?.ru||a.names?.en||'?';
-  const titleEn=a.names?.en||'';
+  const code=a.code||String(id);
   const desc=a.description||'Нет описания.';
   const epFirst=a.player?.episodes?.first||1;
   const epLast=a.player?.episodes?.last||1;
-  const code=a.code||'';
   const genres=(a.genres||[]).map(g=>`<span class="mtag mt-gray">${g}</span>`).join('');
   const year=a.season?.year||'';
   const status=a.status?.string||'';
- 
   const epBtns=Array.from({length:Math.max(1,epLast-epFirst+1)},(_,i)=>{
     const n=epFirst+i;
-    return `<button class="ep-btn${n===epFirst?' active':''}" onclick="aniPlayEp(${id},'${code}',${n},this)">${n}</button>`;
+    return `<button class="ep-btn${n===epFirst?' active':''}" onclick="aniPlay(${id},'${code}',${n},this)">${n}</button>`;
   }).join('');
  
   document.getElementById('mInner').innerHTML=`
@@ -634,7 +628,7 @@ async function modalAni(id){
       <div class="modal-score">🎌 RU</div>
     </div>
     <div class="modal-info">
-      <div><div class="modal-title-ru">${title}</div><div class="modal-title-jp">${titleEn}</div></div>
+      <div><div class="modal-title-ru">${title}</div><div class="modal-title-jp">${a.names?.en||''}</div></div>
       <div class="modal-tags">
         <span class="mtag mt-green">Anilibria</span>
         ${year?`<span class="mtag mt-gold">${year}</span>`:''}
@@ -648,10 +642,10 @@ async function modalAni(id){
           <div class="sel"><label>Студия</label><select disabled><option>Anilibria</option></select></div>
           <div class="sel">
             <label>Качество</label>
-            <select id="aniQ" onchange="aniPlayEp(${id},'${code}',${epFirst},null)">
-              <option value="hd">720p</option>
-              <option value="fullhd">1080p</option>
-              <option value="sd">480p</option>
+            <select id="aniQ" onchange="aniPlay(${id},'${code}',curEp,null)">
+              <option value="hd">720p HD</option>
+              <option value="fullhd">1080p Full HD</option>
+              <option value="sd">480p SD</option>
             </select>
           </div>
           <span class="pstatus ps-load" id="pst">⏳ Загрузка…</span>
@@ -659,16 +653,15 @@ async function modalAni(id){
         <div class="player-frame" id="pFrame">
           <div class="player-ph"><div class="pp-icon">▶</div><p class="pp-text">Выберите серию ниже</p></div>
         </div>
-        <div class="ep-label">Эпизоды</div>
+        <div class="ep-label">Эпизоды (${epFirst}–${epLast})</div>
         <div class="ep-grid" id="epGrid">${epBtns}</div>
       </div>
     </div>`;
  
-  /* Авто-запуск первой серии */
-  aniPlayEp(id,code,epFirst,document.querySelector('#epGrid .ep-btn.active'));
+  aniPlay(id,code,epFirst,document.querySelector('#epGrid .ep-btn.active'));
 }
  
-async function aniPlayEp(id,code,ep,el){
+async function aniPlay(id,code,ep,el){
   curEp=ep;
   document.querySelectorAll('#epGrid .ep-btn').forEach(b=>b.classList.remove('active'));
   if(el)el.classList.add('active');
@@ -676,68 +669,59 @@ async function aniPlayEp(id,code,ep,el){
   if(st){st.className='pstatus ps-load';st.textContent='⏳ Загрузка…';}
  
   try{
-    /* Получаем HLS ссылку через API */
-    const d=await get(`${ANI}/getTitle?id=${id}&filter=player`);
+    /* Получаем HLS через прокси */
+    const d=await aniFetch(`/getTitle?id=${id}&filter=player`);
     const epData=d.player?.list?.[ep];
-    if(!epData)throw new Error('no ep data');
+    if(!epData)throw new Error('no ep');
  
     const qual=document.getElementById('aniQ')?.value||'hd';
-    let hlsUrl=epData.hls?.[qual]||epData.hls?.hd||epData.hls?.sd||null;
-    if(!hlsUrl)throw new Error('no hls url');
- 
-    /* Добавляем домен если нет */
-    if(hlsUrl.startsWith('//'))hlsUrl='https:'+hlsUrl;
-    else if(hlsUrl.startsWith('/'))hlsUrl='https://cache.libria.fun'+hlsUrl;
+    let url=epData.hls?.[qual]||epData.hls?.hd||epData.hls?.sd;
+    if(!url)throw new Error('no url');
+    if(url.startsWith('//'))url='https:'+url;
+    else if(url.startsWith('/'))url='https://cache.libria.fun'+url;
  
     const frame=document.getElementById('pFrame');
     frame.innerHTML=`<video id="aniVid" controls autoplay playsinline style="position:absolute;inset:0;width:100%;height:100%;background:#000;outline:none"></video>`;
     const video=document.getElementById('aniVid');
  
-    /* HLS.js */
-    if(typeof Hls!=='undefined'&&Hls.isSupported()){
-      const hls=new Hls({enableWorker:true,lowLatencyMode:true,maxBufferLength:30});
-      hls.loadSource(hlsUrl);
+    /* HLS.js через CDN */
+    if(typeof Hls !== 'undefined' && Hls.isSupported()){
+      const hls=new Hls({enableWorker:true,lowLatencyMode:true});
+      hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED,()=>{
         video.play().catch(()=>{});
-        if(st){st.className='pstatus ps-ok';st.textContent=`✅ ${qual==='fullhd'?'1080p':qual==='sd'?'480p':'720p'} — Anilibria`;}
+        const ql=qual==='fullhd'?'1080p':qual==='sd'?'480p':'720p';
+        if(st){st.className='pstatus ps-ok';st.textContent=`✅ ${ql} — Anilibria`;}
       });
       hls.on(Hls.Events.ERROR,(_,data)=>{
-        if(data.fatal){
-          /* fallback: iframe плеер */
-          loadIframePlayer(id,code,ep,frame,st);
-        }
+        if(data.fatal)iframePlayer(id,ep,frame,st);
       });
     }else if(video.canPlayType('application/vnd.apple.mpegurl')){
-      /* Safari native HLS */
-      video.src=hlsUrl;
-      video.play().catch(()=>{});
+      video.src=url;video.play().catch(()=>{});
       if(st){st.className='pstatus ps-ok';st.textContent='✅ HLS — Anilibria';}
     }else{
-      loadIframePlayer(id,code,ep,frame,st);
-      return;
+      iframePlayer(id,ep,frame,st);return;
     }
-    showToast(`▶ Серия ${ep} — Anilibria`);
+    showToast(`▶ Серия ${ep}`);
   }catch(e){
     const frame=document.getElementById('pFrame');
-    loadIframePlayer(id,code,ep,frame,document.getElementById('pst'));
+    iframePlayer(id,ep,frame,document.getElementById('pst'));
   }
 }
  
-function loadIframePlayer(id,code,ep,frame,st){
-  /* Официальный публичный iframe плеер Anilibria */
-  const src=`https://www.anilibria.tv/public/iframe.php?id=${id}&episode=${ep}`;
-  frame.innerHTML=`<iframe src="${src}" allowfullscreen allow="autoplay; fullscreen; encrypted-media" scrolling="no"></iframe>`;
-  if(st){st.className='pstatus ps-ok';st.textContent='✅ Player';}
+function iframePlayer(id,ep,frame,st){
+  /* Официальный публичный iframe Anilibria */
+  frame.innerHTML=`<iframe src="https://www.anilibria.tv/public/iframe.php?id=${id}&episode=${ep}"
+    allowfullscreen allow="autoplay; fullscreen; encrypted-media" scrolling="no"></iframe>`;
+  if(st){st.className='pstatus ps-ok';st.textContent='✅ Anilibria Player';}
   showToast(`▶ Серия ${ep} — Anilibria`);
 }
  
-/* ────────────────────────────────────
-   JIKAN MODAL
-──────────────────────────────────── */
+/* ── JIKAN MODAL ── */
 async function modalJikan(id){
   await sleep(100);
-  const d=await get(`${JIKAN}/anime/${id}/full`);
+  const d=await jikFetch(`${JIKAN}/anime/${id}/full`);
   const a=d.data;
   const poster=a.images?.jpg?.large_image_url||'';
   const score=a.score?`⭐ ${a.score}`:'';
@@ -745,7 +729,7 @@ async function modalJikan(id){
   const genres=(a.genres||[]).map(g=>`<span class="mtag mt-gray">${g.name}</span>`).join('');
   const eps=a.episodes||24;
   const dubOpts=DUBS.map((d,i)=>`<option value="${i}">${d}</option>`).join('');
-  const epBtns=Array.from({length:Math.min(eps,200)},(_,i)=>`<button class="ep-btn${i===0?' active':''}" onclick="jikSwitchEp(${i+1},this)">${i+1}</button>`).join('');
+  const epBtns=Array.from({length:Math.min(eps,200)},(_,i)=>`<button class="ep-btn${i===0?' active':''}" onclick="jikEp(${i+1},this)">${i+1}</button>`).join('');
  
   document.getElementById('mInner').innerHTML=`
     <div class="modal-poster-wrap">
@@ -770,8 +754,8 @@ async function modalJikan(id){
         <div class="player-frame" id="pFrame">
           <div class="player-ph">
             <div class="pp-icon">⚡</div>
-            <p class="pp-text">Это аниме есть в базе.<br>Нажмите кнопку ниже — попробуем найти его с видео.</p>
-            <button class="pp-btn" onclick="findOnAnilibria('${(a.title||'').replace(/'/g,'').replace(/"/g,'').slice(0,40)}','${(a.title_russian||'').replace(/'/g,'').replace(/"/g,'').slice(0,40)}')">🔍 Найти видео на Anilibria</button>
+            <p class="pp-text">Нажмите кнопку ниже — найдём это аниме на Anilibria с реальным видео.</p>
+            <button class="pp-btn" onclick="findAni('${escQ(a.title_russian||'')}','${escQ(a.title||'')}')">🔍 Найти на Anilibria</button>
           </div>
         </div>
         ${eps?`<div class="ep-label">Эпизоды</div><div class="ep-grid" id="epGrid">${epBtns}</div>`:''}
@@ -779,42 +763,30 @@ async function modalJikan(id){
     </div>`;
 }
  
-function jikSwitchEp(ep,el){document.querySelectorAll('#epGrid .ep-btn').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');showToast(`📺 Серия ${ep}`);}
+function escQ(s){return s.replace(/'/g,'').replace(/"/g,'').replace(/\\/g,'').slice(0,40);}
+function jikEp(ep,el){document.querySelectorAll('#epGrid .ep-btn').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');showToast(`📺 Серия ${ep}`);}
  
-async function findOnAnilibria(titleEn,titleRu){
+async function findAni(ru,en){
   const frame=document.getElementById('pFrame');
   frame.innerHTML='<div class="player-ph"><div class="spinner"></div></div>';
-  const query=titleRu||titleEn;
+  const q=ru||en;
   try{
-    const d=await get(`${ANI}/searchTitles?search=${encodeURIComponent(query)}&limit=1&filter=id,names,code,player`);
+    const d=await aniFetch(`/searchTitles?search=${encodeURIComponent(q)}&limit=1&filter=id,names`);
     const r=d.list?.[0];
-    if(r){
-      closeModal();
-      await sleep(200);
-      openModal('ani_'+r.id);
-    }else{
-      frame.innerHTML=`<div class="player-ph"><div class="pp-icon">😔</div><p class="pp-text">Это аниме пока не переведено на Anilibria.<br>Можно написать в <a href="https://t.me/StormCreation" target="_blank" style="color:var(--accent)">Telegram</a> с пожеланием добавить.</p></div>`;
-    }
-  }catch(e){frame.innerHTML=`<div class="player-ph"><div class="pp-icon">❌</div><p class="pp-text">Ошибка поиска. Попробуйте позже.</p></div>`;}
+    if(r){closeModal();await sleep(200);openModal('ani_'+r.id);}
+    else frame.innerHTML=`<div class="player-ph"><div class="pp-icon">😔</div><p class="pp-text">Это аниме пока не переведено на Anilibria.<br><a href="https://t.me/StormCreation" target="_blank" style="color:var(--accent)">Написать в Telegram</a></p></div>`;
+  }catch(e){frame.innerHTML=`<div class="player-ph"><div class="pp-icon">❌</div><p class="pp-text">Anilibria недоступна в вашем регионе. Используйте VPN.</p></div>`;}
 }
  
-function closeModal(){
-  document.getElementById('mOverlay').classList.remove('open');
-  document.body.style.overflow='';
-  curAniId=null;
-}
+function closeModal(){document.getElementById('mOverlay').classList.remove('open');document.body.style.overflow='';curAniId=null;}
 function closeMOuter(e){if(e.target===document.getElementById('mOverlay'))closeModal();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
  
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
+/* ══ TOAST ══ */
 let tT;
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2800);}
  
-/* ══════════════════════════════════════
-   INIT
-══════════════════════════════════════ */
+/* ══ INIT ══ */
 (async()=>{
   loadHero();
   loadAnilibria();
@@ -824,6 +796,7 @@ function showToast(m){const t=document.getElementById('toast');t.textContent=m;t
   loadCatalog(true);
 })();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
 </body>
 </html>
  

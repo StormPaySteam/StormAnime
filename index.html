@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StormAnime — Аниме онлайн</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04040c;--bg2:#07071a;--bg3:#0c0c22;--card:#0e0e20;--card2:#14142a;--accent:#4f8aff;--accentH:#1a56ff;--red:#e63946;--gold:#ffc300;--text:#dde1ff;--text2:#6a6a9a;--border:rgba(79,138,255,.12);--glow:0 0 30px rgba(79,138,255,.35)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;line-height:1.5;overflow-x:hidden;min-height:100vh}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+ 
+nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;align-items:center;gap:1.5rem;padding:0 2rem;background:rgba(4,4,12,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;cursor:pointer}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--red));border-radius:8px;display:grid;place-items:center;font-size:18px;box-shadow:var(--glow);animation:logoPulse 3s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 15px rgba(79,138,255,.4)}50%{box-shadow:0 0 35px rgba(79,138,255,.9)}}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;background:linear-gradient(90deg,#fff 0%,var(--accent) 60%,var(--red) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:1.2rem;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.88rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color .2s;cursor:pointer;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .2s;border-radius:2px}
+.nav-links a:hover{color:var(--text)}.nav-links a:hover::after{transform:scaleX(1)}
+.nav-search{flex:1;max-width:400px;margin-left:auto;position:relative}
+.nav-search input{width:100%;padding:9px 14px 9px 40px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.93rem;font-weight:500;outline:none;transition:border-color .2s,box-shadow .2s}
+.nav-search input::placeholder{color:var(--text2)}
+.nav-search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,138,255,.15)}
+.s-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text2);pointer-events:none}
+.search-dropdown{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--card2);border:1px solid var(--border);border-radius:10px;overflow:hidden;z-index:999;display:none;box-shadow:0 20px 60px rgba(0,0,0,.8);max-height:400px;overflow-y:auto}
+.search-dropdown.show{display:block}
+.sd-item{display:flex;gap:12px;padding:10px 14px;cursor:pointer;transition:background .15s;align-items:center}
+.sd-item:hover{background:var(--bg3)}
+.sd-item img{width:38px;height:54px;object-fit:cover;border-radius:5px;flex-shrink:0;background:var(--card)}
+.sd-title{font-weight:600;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sd-meta{font-size:.73rem;color:var(--text2);margin-top:2px}
+.nav-tg{display:flex;align-items:center;gap:7px;padding:8px 14px;background:linear-gradient(135deg,#229ED9,#1a80b6);border-radius:8px;text-decoration:none;color:#fff;font-weight:700;font-size:.82rem;letter-spacing:.5px;transition:transform .2s,box-shadow .2s;flex-shrink:0}
+.nav-tg:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(34,158,217,.4)}
+.nav-tg svg{width:16px;height:16px}
+ 
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 2.5rem 5rem;overflow:hidden;z-index:1}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.28) saturate(1.3);transition:all 1.2s ease;transform:scale(1.06)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(4,4,12,1) 0%,rgba(4,4,12,.75) 45%,rgba(4,4,12,.1) 75%,transparent 100%),linear-gradient(to top,rgba(4,4,12,1) 0%,rgba(4,4,12,.55) 35%,transparent 65%)}
+.hero-content{position:relative;z-index:2;max-width:620px;animation:heroIn 1s ease forwards}
+@keyframes heroIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(79,138,255,.15);border:1px solid rgba(79,138,255,.3);border-radius:30px;font-size:.73rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1;letter-spacing:2px;margin-bottom:1rem;text-shadow:0 0 60px rgba(79,138,255,.3)}
+.hero-meta{display:flex;gap:10px;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap}
+.hero-score{display:flex;align-items:center;gap:4px;font-size:.95rem;font-weight:700;color:var(--gold)}
+.hero-tag{font-size:.8rem;color:var(--text2);background:rgba(255,255,255,.07);padding:3px 10px;border-radius:4px}
+.hero-desc{font-size:.93rem;color:var(--text2);line-height:1.75;margin-bottom:2rem;max-width:500px;font-family:'Noto Sans JP',sans-serif;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;background:linear-gradient(135deg,var(--accent),var(--accentH));border:none;border-radius:10px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.93rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:transform .2s,box-shadow .2s;text-transform:uppercase;box-shadow:0 6px 30px rgba(79,138,255,.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(79,138,255,.6)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.93rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btn-secondary:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+.hero-dots{position:absolute;right:2.5rem;bottom:5rem;display:flex;flex-direction:column;gap:8px;z-index:2}
+.hero-dot{width:8px;height:8px;border-radius:50%;background:var(--text2);cursor:pointer;transition:all .2s;border:none}
+.hero-dot.active{background:var(--accent);box-shadow:0 0 8px var(--accent);transform:scale(1.3)}
+ 
+.stats-bar{position:relative;z-index:1;display:flex;background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:1.3rem 1rem;border-right:1px solid var(--border);position:relative;overflow:hidden}
+.stat-item:last-child{border-right:none}
+.stat-item::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--red));transform:scaleX(0);transition:transform .4s}
+.stat-item:hover::before{transform:scaleX(1)}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:.73rem;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+ 
+.section{position:relative;z-index:1;padding:3rem 2rem}
+.section-header{display:flex;align-items:center;gap:14px;margin-bottom:1.8rem}
+.section-line{width:4px;height:26px;background:linear-gradient(180deg,var(--accent),var(--red));border-radius:2px;flex-shrink:0}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.65rem;letter-spacing:3px}
+.section-sub{font-size:.8rem;color:var(--text2);margin-left:auto;cursor:pointer;transition:color .2s}
+.section-sub:hover{color:var(--accent)}
+ 
+.source-tabs{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+.stab{padding:7px 18px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .2s}
+.stab:hover{border-color:var(--accent);color:var(--text)}
+.stab.active{background:linear-gradient(135deg,var(--accent),var(--accentH));border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(79,138,255,.35)}
+ 
+.genre-tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:1.8rem;scrollbar-width:none}
+.genre-tabs::-webkit-scrollbar{display:none}
+.gtab{flex-shrink:0;padding:6px 15px;border-radius:30px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.gtab:hover{border-color:var(--accent);color:var(--text)}
+.gtab.active{background:linear-gradient(135deg,var(--accent),var(--accentH));border-color:transparent;color:#fff}
+ 
+.anime-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(162px,1fr));gap:1.1rem}
+.anime-card{position:relative;border-radius:10px;overflow:hidden;background:var(--card);border:1px solid var(--border);cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;animation:cardIn .4s ease backwards}
+.anime-card:hover{transform:translateY(-7px) scale(1.02);box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 0 1px rgba(79,138,255,.3);border-color:rgba(79,138,255,.4);z-index:10}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card-poster{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:var(--card2)}
+.card-poster-ph{width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,var(--card2),var(--bg3));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--text2)}
+.card-score{position:absolute;top:8px;right:8px;background:rgba(4,4,12,.85);backdrop-filter:blur(6px);border-radius:5px;padding:3px 7px;font-size:.7rem;font-weight:700;color:var(--gold)}
+.card-type{position:absolute;top:8px;left:8px;background:linear-gradient(135deg,var(--accent),var(--accentH));border-radius:4px;padding:2px 7px;font-size:.66rem;font-weight:700;color:#fff;text-transform:uppercase}
+.card-ani-badge{position:absolute;top:8px;left:8px;background:linear-gradient(135deg,#e63946,#c1121f);border-radius:4px;padding:2px 7px;font-size:.66rem;font-weight:700;color:#fff}
+.card-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(4,4,12,.97) 55%);padding:1.5rem .8rem .8rem}
+.card-title{font-size:.82rem;font-weight:700;line-height:1.3;margin-bottom:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-year{font-size:.7rem;color:var(--text2)}
+.card-hover{position:absolute;inset:0;background:rgba(4,4,12,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0;transition:opacity .2s;padding:1rem}
+.anime-card:hover .card-hover{opacity:1}
+.card-play-btn{width:52px;height:52px;background:linear-gradient(135deg,var(--accent),var(--accentH));border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px rgba(79,138,255,.6)}
+.card-hover-title{font-size:.8rem;font-weight:700;text-align:center;line-height:1.3}
+.card-dubs{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.card-dub{font-size:.6rem;padding:2px 6px;background:rgba(79,138,255,.15);border-radius:3px;color:var(--accent);font-weight:600}
+ 
+.load-more-wrap{text-align:center;padding:2rem 0}
+.btn-load{padding:12px 34px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btn-load:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 0 20px rgba(79,138,255,.2)}
+.btn-load:disabled{opacity:.4;cursor:not-allowed}
+ 
+.spinner-wrap{display:flex;justify-content:center;padding:3rem}
+.spinner{width:42px;height:42px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+ 
+.modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:1060px;max-height:93vh;overflow-y:auto;position:relative;animation:modalIn .3s cubic-bezier(.34,1.56,.64,1) forwards;scrollbar-width:thin}
+@keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:sticky;top:0;float:right;margin:1rem 1rem 0 0;width:36px;height:36px;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .2s,color .2s}
+.modal-close:hover{background:var(--red);color:#fff}
+.modal-inner{display:grid;grid-template-columns:240px 1fr;gap:0;padding:1.5rem}
+.modal-poster-wrap{position:relative}
+.modal-poster{width:100%;border-radius:12px;object-fit:cover;aspect-ratio:3/4;display:block;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.modal-poster-ph{width:100%;aspect-ratio:3/4;background:var(--card2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--text2)}
+.modal-score-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);border-radius:8px;padding:5px 10px;font-size:1rem;font-weight:800;color:var(--gold);display:flex;align-items:center;gap:4px}
+.modal-info{padding-left:1.8rem;display:flex;flex-direction:column;gap:1rem}
+.modal-title-ru{font-family:'Bebas Neue',sans-serif;font-size:1.85rem;letter-spacing:2px;line-height:1.1;margin-bottom:.2rem}
+.modal-title-jp{font-size:.8rem;color:var(--text2);font-family:'Noto Sans JP',sans-serif;font-weight:300}
+.modal-tags{display:flex;gap:7px;flex-wrap:wrap}
+.mtag{padding:3px 11px;border-radius:5px;font-size:.73rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.mtag-blue{background:rgba(79,138,255,.15);color:var(--accent);border:1px solid rgba(79,138,255,.3)}
+.mtag-red{background:rgba(230,57,70,.15);color:var(--red);border:1px solid rgba(230,57,70,.3)}
+.mtag-gold{background:rgba(255,195,0,.15);color:var(--gold);border:1px solid rgba(255,195,0,.3)}
+.mtag-gray{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border)}
+.mtag-green{background:rgba(0,200,100,.15);color:#00c864;border:1px solid rgba(0,200,100,.3)}
+.modal-desc{font-family:'Noto Sans JP',sans-serif;font-weight:300;font-size:.86rem;color:var(--text2);line-height:1.8;max-height:100px;overflow-y:auto;padding-right:4px;scrollbar-width:thin}
+ 
+.player-section{width:100%}
+.player-controls{display:flex;gap:10px;margin-bottom:.9rem;flex-wrap:wrap;align-items:flex-end}
+.sel-wrap{position:relative;flex:1;min-width:130px}
+.sel-wrap label{display:block;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:4px}
+.sel-wrap select{width:100%;padding:8px 28px 8px 11px;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:600;outline:none;cursor:pointer;appearance:none;transition:border-color .2s}
+.sel-wrap select:focus{border-color:var(--accent)}
+.sel-wrap::after{content:'▾';position:absolute;right:10px;bottom:9px;color:var(--text2);pointer-events:none;font-size:.8rem}
+ 
+.player-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.player-frame video{position:absolute;inset:0;width:100%;height:100%;background:#000}
+.player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.player-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:linear-gradient(135deg,var(--card),var(--bg3))}
+.pp-icon{font-size:3.5rem;opacity:.3}
+.pp-text{color:var(--text2);font-size:.85rem;text-align:center;line-height:1.7;max-width:320px}
+.pp-btn{padding:10px 26px;background:linear-gradient(135deg,var(--accent),var(--accentH));border:none;border-radius:8px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;text-transform:uppercase;text-decoration:none;display:inline-block}
+.pp-btn:hover{transform:translateY(-2px);box-shadow:var(--glow)}
+ 
+.hls-status{font-size:.75rem;padding:5px 10px;border-radius:5px;display:inline-flex;align-items:center;gap:5px;font-weight:600;white-space:nowrap}
+.hls-ok{background:rgba(0,200,100,.15);color:#00c864;border:1px solid rgba(0,200,100,.3)}
+.hls-err{background:rgba(230,57,70,.15);color:var(--red);border:1px solid rgba(230,57,70,.3)}
+.hls-load{background:rgba(79,138,255,.15);color:var(--accent);border:1px solid rgba(79,138,255,.3)}
+ 
+.ep-label{font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin:.8rem 0 .4rem}
+.ep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:5px;max-height:118px;overflow-y:auto;padding:.75rem;background:var(--card);border-radius:10px;border:1px solid var(--border);scrollbar-width:thin}
+.ep-btn{padding:6px 4px;background:var(--card2);border:1px solid var(--border);border-radius:6px;color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
+.ep-btn:hover{border-color:var(--accent);color:var(--text)}
+.ep-btn.active{background:linear-gradient(135deg,var(--accent),var(--accentH));border-color:transparent;color:#fff}
+ 
+#searchPage{display:none;position:relative;z-index:1;padding:5rem 2rem 3rem;min-height:100vh}
+#searchPage.open{display:block}
+.search-header{margin-bottom:1.5rem}
+.search-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px}
+.search-header p{color:var(--text2);font-size:.85rem;margin-top:.3rem}
+ 
+footer{position:relative;z-index:1;background:var(--card);border-top:1px solid var(--border);padding:2.5rem 2rem 1.5rem;margin-top:2rem}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.footer-brand p{color:var(--text2);font-size:.83rem;line-height:1.7;margin-top:.8rem;font-family:'Noto Sans JP',sans-serif;font-weight:300}
+.footer-social{display:flex;gap:8px;margin-top:1rem}
+.social-btn{width:36px;height:36px;background:var(--card2);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text2)}
+.social-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.footer-col h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--accent);margin-bottom:.8rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.footer-col li{font-size:.83rem;color:var(--text2);cursor:pointer;transition:color .2s}
+.footer-col li:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+.footer-bottom p{font-size:.78rem;color:var(--text2)}
+.footer-bottom span{color:var(--accent)}
+ 
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:11px 18px;font-size:.86rem;font-weight:600;z-index:9999;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+ 
+@media(max-width:900px){.modal-inner{grid-template-columns:1fr}.modal-info{padding-left:0}.modal-poster{max-width:180px;margin:0 auto;display:block}.footer-top{grid-template-columns:1fr}.nav-links{display:none}.section{padding:2rem 1rem}.hero{padding:0 1rem 4rem}}
+@media(max-width:580px){.anime-grid{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:.8rem}.modal-inner{padding:1rem}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+ 
+<nav>
+  <div class="logo" onclick="showHome()">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-text">StormAnime</span>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showHome();scrollToEl('catalog')">Каталог</a></li>
+    <li><a onclick="goAnilibria()">Anilibria</a></li>
+    <li><a onclick="loadSection('top')">Топ</a></li>
+    <li><a onclick="loadSection('movie')">Фильмы</a></li>
+  </ul>
+  <div class="nav-search">
+    <span class="s-icon">🔍</span>
+    <input type="text" id="navInput" placeholder="Поиск аниме..." autocomplete="off">
+    <div class="search-dropdown" id="searchDrop"></div>
+  </div>
+  <a class="nav-tg" href="https://t.me/StormCreation" target="_blank">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.288c-.145.658-.537.818-1.084.508l-3-2.21-1.448 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.332 14.39 5.37 13.49c-.65-.204-.663-.65.136-.964l10.87-4.19c.537-.194 1.008.131.836.912z"/></svg>
+    Telegram
+  </a>
+</nav>
+ 
+<section class="hero" id="heroSection">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content" id="heroContent"><div class="spinner-wrap"><div class="spinner"></div></div></div>
+  <div class="hero-dots" id="heroDots"></div>
+</section>
+ 
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-num">20K+</span><span class="stat-label">Аниме</span></div>
+  <div class="stat-item"><span class="stat-num">7</span><span class="stat-label">Студий</span></div>
+  <div class="stat-item"><span class="stat-num">720p+</span><span class="stat-label">Качество</span></div>
+  <div class="stat-item"><span class="stat-num">24/7</span><span class="stat-label">Онлайн</span></div>
+</div>
+ 
+<main id="mainContent">
+  <section class="section" id="seasonalSection">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <h2 class="section-title">🔥 Сейчас выходит — Anilibria</h2>
+      <span class="section-sub" onclick="goAnilibria()">Смотреть все →</span>
+    </div>
+    <div class="anime-grid" id="anilibriaGrid"><div class="spinner-wrap"><div class="spinner"></div></div></div>
+  </section>
+ 
+  <section class="section" id="topSection">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <h2 class="section-title">🏆 Топ аниме всех времён</h2>
+      <span class="section-sub" onclick="loadSection('top')">Смотреть все →</span>
+    </div>
+    <div class="anime-grid" id="topGrid"><div class="spinner-wrap"><div class="spinner"></div></div></div>
+  </section>
+ 
+  <section class="section" id="catalog">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <h2 class="section-title">Полный каталог</h2>
+    </div>
+    <div class="source-tabs">
+      <button class="stab active" id="stab-jikan" onclick="switchCatalogSource('jikan',this)">📋 Jikan — 20K+ аниме</button>
+      <button class="stab" id="stab-anilibria" onclick="switchCatalogSource('anilibria',this)">🎌 Anilibria — RU озвучка</button>
+    </div>
+    <div class="genre-tabs" id="genreTabs">
+      <button class="gtab active" data-genre="all">Все</button>
+      <button class="gtab" data-genre="1">Экшн</button>
+      <button class="gtab" data-genre="2">Приключения</button>
+      <button class="gtab" data-genre="4">Комедия</button>
+      <button class="gtab" data-genre="8">Драма</button>
+      <button class="gtab" data-genre="10">Фэнтези</button>
+      <button class="gtab" data-genre="22">Романтика</button>
+      <button class="gtab" data-genre="24">Sci-Fi</button>
+      <button class="gtab" data-genre="37">Сверхъест.</button>
+      <button class="gtab" data-genre="36">Спорт</button>
+    </div>
+    <div class="anime-grid" id="catalogGrid"><div class="spinner-wrap"><div class="spinner"></div></div></div>
+    <div class="load-more-wrap"><button class="btn-load" id="loadMoreBtn" onclick="loadMoreCatalog()">⬇ Загрузить ещё</button></div>
+  </section>
+</main>
+ 
+<section id="searchPage">
+  <div class="search-header">
+    <h2>Поиск: "<span id="searchQuery"></span>"</h2>
+    <p id="searchCount"></p>
+  </div>
+  <div class="source-tabs" style="margin-bottom:1.5rem">
+    <button class="stab active" id="sstab-jikan" onclick="switchSearchSource('jikan',this)">Jikan (MAL)</button>
+    <button class="stab" id="sstab-anilibria" onclick="switchSearchSource('anilibria',this)">Anilibria RU</button>
+  </div>
+  <div class="anime-grid" id="searchGrid"></div>
+  <div class="load-more-wrap"><button class="btn-load" id="searchMoreBtn" onclick="loadMoreSearch()">⬇ Загрузить ещё</button></div>
+</section>
+ 
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo" style="pointer-events:none">
+        <div class="logo-icon" style="width:30px;height:30px;font-size:14px">⚡</div>
+        <span class="logo-text">StormAnime</span>
+      </div>
+      <p>Лучший сайт для просмотра аниме с русской озвучкой. Jikan API + Anilibria API.</p>
+      <div class="footer-social">
+        <a class="social-btn" href="https://t.me/StormCreation" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-1.97 9.288c-.145.658-.537.818-1.084.508l-3-2.21-1.448 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.332 14.39 5.37 13.49c-.65-.204-.663-.65.136-.964l10.87-4.19c.537-.194 1.008.131.836.912z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Студии Озвучки</h4>
+      <ul><li>🎙 Anilibria</li><li>🎙 2x2</li><li>🎙 AniDub</li><li>🎙 Студийная банда / DEEP</li><li>🎙 Dream Cast</li><li>🎙 SHIZA Project</li><li>🎙 Reanimedia</li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>Навигация</h4>
+      <ul><li onclick="showHome()">Главная</li><li onclick="goAnilibria()">Anilibria</li><li onclick="loadSection('top')">Топ аниме</li><li onclick="loadSection('movie')">Фильмы</li><li onclick="loadSection('tv')">Сериалы</li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <span>StormAnime</span>. Все права защищены.</p>
+    <p>API: <span>Jikan (MAL)</span> + <span>Anilibria.TV</span></p>
+  </div>
+</footer>
+ 
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-inner" id="modalInner"></div>
+  </div>
+</div>
+ 
+<div class="toast" id="toast"></div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+<script>
+/* ═══ CANVAS BG ═══ */
+(()=>{
+  const c=document.getElementById('bgCanvas'),ctx=c.getContext('2d');
+  let W,H;const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight};
+  resize();addEventListener('resize',resize);
+  const pts=Array.from({length:70},()=>({x:Math.random()*1920,y:Math.random()*1080,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.4+.3,o:Math.random()}));
+  let bolts=[],t=0;
+  function nb(){const x=Math.random()*W,b={x,segs:[],alpha:1,life:0};let cx=x,cy=0;for(let i=0;i<13;i++){const nx=cx+(Math.random()-.5)*70,ny=cy+H/13;b.segs.push([cx,cy,nx,ny]);cx=nx;cy=ny;}bolts.push(b);}
+  (function draw(){requestAnimationFrame(draw);ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(79,138,255,${p.o*.22})`;ctx.fill();});
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<120){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(79,138,255,${(1-d/120)*.07})`;ctx.stroke();}}
+    if(++t%200===0)nb();
+    bolts=bolts.filter(b=>{b.life++;b.alpha=Math.max(0,1-b.life/28);b.segs.forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=`rgba(79,138,255,${b.alpha*.45})`;ctx.lineWidth=1;ctx.stroke();ctx.strokeStyle=`rgba(200,220,255,${b.alpha*.2})`;ctx.lineWidth=2.5;ctx.stroke();});return b.alpha>0;});
+  })();
+})();
+ 
+/* ═══ CONFIG ═══ */
+const JIKAN='https://api.jikan.moe/v4';
+const ANI='https://api.anilibria.tv/v3';
+const DUBS=['Anilibria','2x2','AniDub','Студийная банда','Dream Cast','SHIZA Project','Reanimedia'];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function apiFetch(url){const r=await fetch(url);if(!r.ok)throw new Error(r.status);return r.json();}
+ 
+/* ═══ HERO ═══ */
+let heroList=[],heroIdx=0,heroTimer,heroSrc='ani';
+async function loadHero(){
+  try{
+    const d=await apiFetch(`${ANI}/title/updates?limit=8&filter=id,names,posters,description,player,genres`);
+    heroList=d.list||[];heroSrc='ani';
+  }catch(e){
+    try{const d=await apiFetch(`${JIKAN}/top/anime?filter=airing&limit=8`);heroList=d.data||[];heroSrc='jik';}
+    catch(e2){document.getElementById('heroContent').innerHTML='<h1 style="font-family:\'Bebas Neue\',sans-serif;font-size:3rem;letter-spacing:3px">StormAnime</h1>';return;}
+  }
+  buildDots();showSlide(0);
+  heroTimer=setInterval(()=>{heroIdx=(heroIdx+1)%heroList.length;showSlide(heroIdx);},6500);
+}
+function buildDots(){document.getElementById('heroDots').innerHTML=heroList.map((_,i)=>`<button class="hero-dot${i===0?' active':''}" onclick="jumpHero(${i})"></button>`).join('');}
+function jumpHero(i){clearInterval(heroTimer);heroIdx=i;showSlide(i);heroTimer=setInterval(()=>{heroIdx=(heroIdx+1)%heroList.length;showSlide(heroIdx);},6500);}
+function showSlide(i){
+  const a=heroList[i];if(!a)return;
+  const isAni=heroSrc==='ani';
+  const bg=isAni?(a.posters?.original?.url?`https://www.anilibria.tv${a.posters.original.url}`:''):(a.images?.jpg?.large_image_url||'');
+  const title=isAni?(a.names?.ru||a.names?.en||''):(a.title_russian||a.title||'');
+  const desc=isAni?(a.description||'').slice(0,200)+'…':((a.synopsis||'').split('\n')[0].slice(0,200)+'…');
+  const score=(!isAni&&a.score)?`⭐ ${a.score}`:'';
+  const year=(!isAni&&a.year)?a.year:'';
+  const eps=isAni?(a.player?.episodes?.last?`${a.player.episodes.last} эп.`:'Онгоинг'):(a.episodes?`${a.episodes} эп.`:'');
+  const id=isAni?'ani_'+a.id:'mal_'+a.mal_id;
+  document.getElementById('heroBg').style.backgroundImage=`url(${bg})`;
+  document.getElementById('heroContent').innerHTML=`
+    <div class="hero-badge">⚡ ${isAni?'Anilibria — RU озвучка':'В эфире'}</div>
+    <h1>${title}</h1>
+    <div class="hero-meta">
+      ${score?`<span class="hero-score">${score}</span>`:''}
+      ${year?`<span class="hero-tag">${year}</span>`:''}
+      ${eps?`<span class="hero-tag">${eps}</span>`:''}
+    </div>
+    <p class="hero-desc">${desc}</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="openModal('${id}')">▶ Смотреть</button>
+      <button class="btn-secondary" onclick="openModal('${id}')">📋 Подробнее</button>
+    </div>`;
+  document.querySelectorAll('.hero-dot').forEach((d,idx)=>d.classList.toggle('active',idx===i));
+}
+ 
+/* ═══ CARDS ═══ */
+function makeCard(a,i=0){
+  const isAni=a.__src==='ani';
+  const poster=isAni?(a.posters?.medium?.url?`https://www.anilibria.tv${a.posters.medium.url}`:''):(a.images?.jpg?.image_url||'');
+  const title=isAni?(a.names?.ru||a.names?.en||'?'):(a.title_russian||a.title||'?');
+  const score=a.score?`⭐${a.score}`:'';
+  const year=a.year||'';
+  const type=isAni?'TV':(a.type||'TV');
+  const id=isAni?'ani_'+a.id:'mal_'+a.mal_id;
+  return `<div class="anime-card" style="animation-delay:${i*.04}s" onclick="openModal('${id}')">
+    ${poster?`<img class="card-poster" src="${poster}" alt="" loading="lazy">`:`<div class="card-poster-ph">🎌</div>`}
+    ${score?`<div class="card-score">${score}</div>`:''}
+    ${isAni?`<div class="card-ani-badge">🎌 RU</div>`:`<div class="card-type">${type}</div>`}
+    <div class="card-overlay"><div class="card-title">${title}</div>${year?`<div class="card-year">${year}</div>`:''}</div>
+    <div class="card-hover">
+      <div class="card-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="card-hover-title">${title}</div>
+      <div class="card-dubs"><span class="card-dub">${isAni?'Anilibria':DUBS[(parseInt(a.mal_id)||0)%DUBS.length]}</span></div>
+    </div>
+  </div>`;
+}
+function renderCards(list,g){if(!list?.length){g.innerHTML='<p style="color:var(--text2);padding:2rem">Ничего не найдено.</p>';return;}g.innerHTML=list.map((a,i)=>makeCard(a,i)).join('');}
+function appendCards(list,g){const d=document.createElement('div');d.style.display='contents';d.innerHTML=list.map((a,i)=>makeCard(a,i)).join('');g.appendChild(d);}
+ 
+/* ═══ SECTIONS ═══ */
+async function loadAnilibria(){
+  const g=document.getElementById('anilibriaGrid');
+  g.innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';
+  try{
+    const d=await apiFetch(`${ANI}/title/updates?limit=12&filter=id,names,posters,player,genres,description`);
+    renderCards((d.list||[]).map(x=>({...x,__src:'ani'})),g);
+  }catch(e){g.innerHTML='<p style="color:var(--text2);padding:1rem">Ошибка загрузки Anilibria.</p>';}
+}
+async function loadTopJikan(){
+  const g=document.getElementById('topGrid');
+  g.innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';
+  await sleep(400);
+  try{const d=await apiFetch(`${JIKAN}/top/anime?type=tv&limit=12`);renderCards(d.data||[],g);}
+  catch(e){g.innerHTML='<p style="color:var(--text2);padding:1rem">Ошибка загрузки.</p>';}
+}
+ 
+let catPage=1,aniPage=1,catGenre='all',catSrc='jikan',catLoading=false;
+async function loadCatalog(reset=false){
+  const g=document.getElementById('catalogGrid');
+  if(reset){catPage=1;aniPage=1;g.innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';}
+  catLoading=true;
+  const btn=document.getElementById('loadMoreBtn');if(btn)btn.disabled=true;
+  await sleep(reset?500:100);
+  try{
+    if(catSrc==='jikan'){
+      const url=catGenre==='all'?`${JIKAN}/anime?page=${catPage}&limit=20&order_by=popularity&sfw=true`:`${JIKAN}/anime?genres=${catGenre}&page=${catPage}&limit=20&order_by=popularity`;
+      const d=await apiFetch(url);
+      reset?renderCards(d.data||[],g):appendCards(d.data||[],g);catPage++;
+    }else{
+      const d=await apiFetch(`${ANI}/title/list?page=${aniPage}&items_per_page=20&filter=id,names,posters,player,genres`);
+      const list=(d.list||[]).map(x=>({...x,__src:'ani'}));
+      reset?renderCards(list,g):appendCards(list,g);aniPage++;
+    }
+  }catch(e){if(reset)g.innerHTML='<p style="color:var(--text2);padding:1rem">Ошибка загрузки.</p>';}
+  catLoading=false;if(btn)btn.disabled=false;
+}
+function loadMoreCatalog(){if(!catLoading)loadCatalog(false);}
+function switchCatalogSource(src,el){
+  catSrc=src;
+  document.querySelectorAll('.stab[id^="stab-"]').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  document.getElementById('genreTabs').style.display=src==='jikan'?'flex':'none';
+  loadCatalog(true);
+}
+document.getElementById('genreTabs').addEventListener('click',e=>{
+  if(e.target.classList.contains('gtab')){
+    catGenre=e.target.dataset.genre;
+    document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('active'));e.target.classList.add('active');
+    loadCatalog(true);
+  }
+});
+function goAnilibria(){showHome();setTimeout(()=>{document.getElementById('catalog').scrollIntoView({behavior:'smooth'});switchCatalogSource('anilibria',document.getElementById('stab-anilibria'));},60);}
+ 
+/* ═══ SEARCH ═══ */
+let sTimer,sPage=1,lastQ='',sSrc='jikan';
+document.getElementById('navInput').addEventListener('input',e=>{
+  clearTimeout(sTimer);const q=e.target.value.trim();
+  if(!q){document.getElementById('searchDrop').classList.remove('show');return;}
+  sTimer=setTimeout(()=>doDropdown(q),420);
+});
+document.getElementById('navInput').addEventListener('keydown',e=>{if(e.key==='Enter'){const q=e.target.value.trim();if(q)doFullSearch(q);}});
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-search'))document.getElementById('searchDrop').classList.remove('show');});
+ 
+async function doDropdown(q){
+  const dd=document.getElementById('searchDrop');
+  dd.innerHTML='<div style="padding:.8rem;text-align:center"><div class="spinner" style="width:22px;height:22px;border-width:2px;margin:auto"></div></div>';
+  dd.classList.add('show');
+  try{
+    const [jR,aR]=await Promise.allSettled([
+      apiFetch(`${JIKAN}/anime?q=${encodeURIComponent(q)}&limit=3`),
+      apiFetch(`${ANI}/title/search?search=${encodeURIComponent(q)}&limit=3&filter=id,names,posters`)
+    ]);
+    const jL=jR.status==='fulfilled'?(jR.value.data||[]):[];
+    const aL=aR.status==='fulfilled'?(aR.value.list||[]).map(x=>({...x,__src:'ani'})):[];
+    const all=[...aL,...jL].slice(0,7);
+    if(!all.length){dd.innerHTML='<p style="padding:1rem;color:var(--text2)">Ничего не найдено</p>';return;}
+    dd.innerHTML=all.map(a=>{
+      const isAni=a.__src==='ani';
+      const poster=isAni?(a.posters?.medium?.url?`https://www.anilibria.tv${a.posters.medium.url}`:''):(a.images?.jpg?.image_url||'');
+      const title=isAni?(a.names?.ru||a.names?.en||'?'):(a.title_russian||a.title||'?');
+      const id=isAni?'ani_'+a.id:'mal_'+a.mal_id;
+      const meta=isAni?'🎌 Anilibria — RU':`MAL • ${a.type||'TV'} • ⭐${a.score||'?'}`;
+      return `<div class="sd-item" onclick="openModal('${id}');document.getElementById('searchDrop').classList.remove('show')"><img src="${poster}" onerror="this.style.display='none'" alt=""><div><div class="sd-title">${title}</div><div class="sd-meta">${meta}</div></div></div>`;
+    }).join('');
+  }catch(e){dd.innerHTML='<p style="padding:1rem;color:var(--text2)">Ошибка</p>';}
+}
+ 
+async function doFullSearch(q){
+  document.getElementById('searchDrop').classList.remove('show');
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('searchPage').classList.add('open');
+  lastQ=q;sPage=1;
+  document.getElementById('searchQuery').textContent=q;
+  document.getElementById('searchCount').textContent='Поиск…';
+  document.getElementById('searchGrid').innerHTML='<div class="spinner-wrap" style="grid-column:1/-1"><div class="spinner"></div></div>';
+  await runSearch(q,1,true);
+}
+async function runSearch(q,page,reset){
+  try{
+    if(sSrc==='jikan'){
+      const d=await apiFetch(`${JIKAN}/anime?q=${encodeURIComponent(q)}&page=${page}&limit=20`);
+      reset?renderCards(d.data||[],document.getElementById('searchGrid')):appendCards(d.data||[],document.getElementById('searchGrid'));
+      document.getElementById('searchCount').textContent=`Найдено: ${d.pagination?.items?.total||d.data?.length||0}`;
+    }else{
+      const d=await apiFetch(`${ANI}/title/search?search=${encodeURIComponent(q)}&page=${page}&items_per_page=20&filter=id,names,posters,player`);
+      const list=(d.list||[]).map(x=>({...x,__src:'ani'}));
+      reset?renderCards(list,document.getElementById('searchGrid')):appendCards(list,document.getElementById('searchGrid'));
+      document.getElementById('searchCount').textContent=`Найдено: ${d.pagination?.total||list.length}`;
+    }
+  }catch(e){document.getElementById('searchGrid').innerHTML='<p style="color:var(--text2)">Ошибка поиска.</p>';}
+}
+async function loadMoreSearch(){const btn=document.getElementById('searchMoreBtn');btn.disabled=true;sPage++;await runSearch(lastQ,sPage,false);btn.disabled=false;}
+function switchSearchSource(src,el){sSrc=src;document.querySelectorAll('.stab[id^="sstab-"]').forEach(b=>b.classList.remove('active'));el.classList.add('active');runSearch(lastQ,1,true);sPage=1;}
+function showHome(){document.getElementById('mainContent').style.display='';document.getElementById('searchPage').classList.remove('open');document.getElementById('navInput').value='';}
+function scrollToEl(id){setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}),60);}
+async function loadSection(type){
+  showHome();
+  if(type==='top'){await sleep(50);document.getElementById('topSection').scrollIntoView({behavior:'smooth'});}
+  else{
+    await sleep(50);document.getElementById('catalog').scrollIntoView({behavior:'smooth'});
+    catSrc='jikan';catGenre='all';
+    document.getElementById('catalogGrid').innerHTML='<div class="spinner-wrap"><div class="spinner"></div></div>';
+    const m={movie:'Movie',tv:'TV',ona:'ONA'};
+    const d=await apiFetch(`${JIKAN}/anime?type=${m[type]}&page=1&limit=20&order_by=popularity`);
+    renderCards(d.data||[],document.getElementById('catalogGrid'));
+  }
+}
+ 
+/* ═══ MODAL ═══ */
+let curHls=null,curAniId=null,curEp=1;
+async function openModal(id){
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('modalInner').innerHTML='<div style="grid-column:1/-1;display:flex;justify-content:center;padding:3rem"><div class="spinner"></div></div>';
+  document.body.style.overflow='hidden';
+  if(curHls){curHls.destroy();curHls=null;}
+  try{
+    if(id.startsWith('ani_'))await openAniModal(parseInt(id.slice(4)));
+    else await openJikanModal(parseInt(id.slice(4)));
+  }catch(e){document.getElementById('modalInner').innerHTML='<p style="color:var(--text2);padding:2rem;grid-column:1/-1">Ошибка загрузки.</p>';}
+}
+ 
+/* ─ Anilibria modal ─ */
+async function openAniModal(id){
+  curAniId=id;
+  const d=await apiFetch(`${ANI}/title?id=${id}&filter=id,names,posters,description,player,genres,season,status,type`);
+  const a=d;
+  const poster=a.posters?.original?.url?`https://www.anilibria.tv${a.posters.original.url}`:'';
+  const title=a.names?.ru||a.names?.en||'?';
+  const desc=a.description||'Нет описания.';
+  const epFirst=a.player?.episodes?.first||1;
+  const epLast=a.player?.episodes?.last||1;
+  const genres=(a.genres||[]).map(g=>`<span class="mtag mtag-gray">${g}</span>`).join('');
+  const year=a.season?.year||'';
+  const status=a.status?.string||'';
+  const epBtns=Array.from({length:Math.max(1,epLast-epFirst+1)},(_,i)=>{
+    const n=epFirst+i;return `<button class="ep-btn${n===epFirst?' active':''}" onclick="playAniEp(${id},${n},this)">${n}</button>`;
+  }).join('');
+  document.getElementById('modalInner').innerHTML=`
+    <div class="modal-poster-wrap">
+      ${poster?`<img class="modal-poster" src="${poster}" alt="${title}">`:`<div class="modal-poster-ph">🎌</div>`}
+      <div class="modal-score-badge">🎌 RU</div>
+    </div>
+    <div class="modal-info">
+      <div><div class="modal-title-ru">${title}</div><div class="modal-title-jp">${a.names?.en||''}</div></div>
+      <div class="modal-tags">
+        <span class="mtag mtag-green">Anilibria</span>
+        ${year?`<span class="mtag mtag-gold">${year}</span>`:''}
+        ${status?`<span class="mtag mtag-${status.includes('Онгоинг')||status.includes('эфир')?'red':'gray'}">${status}</span>`:''}
+        <span class="mtag mtag-blue">${epLast} эп.</span>
+        ${genres}
+      </div>
+      <p class="modal-desc">${desc}</p>
+      <div class="player-section">
+        <div class="player-controls">
+          <div class="sel-wrap"><label>Студия</label><select disabled><option>Anilibria (официально)</option></select></div>
+          <div class="sel-wrap"><label>Качество</label>
+            <select id="aniQual" onchange="playAniEp(${id},${epFirst},null)">
+              <option value="hd">720p</option><option value="fullhd">1080p</option><option value="sd">480p</option>
+            </select>
+          </div>
+          <span class="hls-status hls-load" id="hlsSt">⏳ Загрузка…</span>
+        </div>
+        <div class="player-frame" id="playerFrame"><div class="player-placeholder"><div class="pp-icon">▶</div><p class="pp-text">Выберите серию</p></div></div>
+        <div class="ep-label">Эпизоды</div>
+        <div class="ep-grid" id="epGrid">${epBtns}</div>
+      </div>
+    </div>`;
+  playAniEp(id,epFirst,document.querySelector('#epGrid .ep-btn'));
+}
+ 
+async function playAniEp(id,ep,el){
+  curEp=ep;
+  document.querySelectorAll('#epGrid .ep-btn').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const st=document.getElementById('hlsSt');
+  if(st){st.className='hls-status hls-load';st.textContent='⏳ Загрузка…';}
+  try{
+    const d=await apiFetch(`${ANI}/title?id=${id}&filter=player`);
+    const epData=d.player?.list?.[ep];
+    if(!epData)throw new Error('no ep');
+    const qual=document.getElementById('aniQual')?.value||'hd';
+    let url=epData.hls?.[qual]||epData.hls?.hd||epData.hls?.sd;
+    if(!url)throw new Error('no url');
+    if(!url.startsWith('http'))url='https://cache.libria.fun'+url;
+    const frame=document.getElementById('playerFrame');
+    frame.innerHTML='<video id="aniVideo" controls autoplay style="position:absolute;inset:0;width:100%;height:100%;background:#000"></video>';
+    const video=document.getElementById('aniVideo');
+    if(Hls.isSupported()){
+      if(curHls)curHls.destroy();
+      curHls=new Hls({enableWorker:true,lowLatencyMode:true});
+      curHls.loadSource(url);curHls.attachMedia(video);
+      curHls.on(Hls.Events.MANIFEST_PARSED,()=>{video.play().catch(()=>{});if(st){st.className='hls-status hls-ok';st.textContent='✅ '+qual.toUpperCase()+' — Anilibria';}});
+      curHls.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal&&st){st.className='hls-status hls-err';st.textContent='❌ Ошибка потока';}});
+    }else if(video.canPlayType('application/vnd.apple.mpegurl')){
+      video.src=url;video.play().catch(()=>{});if(st){st.className='hls-status hls-ok';st.textContent='✅ HLS Native';}
+    }else throw new Error('hls unsupported');
+    showToast(`▶ Серия ${ep} — Anilibria`);
+  }catch(e){
+    const frame=document.getElementById('playerFrame');
+    frame.innerHTML=`<div class="player-placeholder"><div class="pp-icon">⚡</div><p class="pp-text">Серия временно недоступна через прямой поток.</p><a href="https://www.anilibria.tv" target="_blank" class="pp-btn" style="text-decoration:none">Открыть Anilibria</a></div>`;
+    if(st){st.className='hls-status hls-err';st.textContent='❌ Недоступно';}
+  }
+}
+ 
+/* ─ Jikan modal ─ */
+async function openJikanModal(id){
+  await sleep(150);
+  const d=await apiFetch(`${JIKAN}/anime/${id}/full`);
+  const a=d.data;
+  const poster=a.images?.jpg?.large_image_url||'';
+  const score=a.score?`⭐ ${a.score}`:'';
+  const year=a.year||'';
+  const genres=(a.genres||[]).map(g=>`<span class="mtag mtag-gray">${g.name}</span>`).join('');
+  const eps=a.episodes||24;
+  const dubs=DUBS.map((d,i)=>`<option value="${i}">${d}</option>`).join('');
+  const epBtns=Array.from({length:Math.min(eps,200)},(_,i)=>`<button class="ep-btn${i===0?' active':''}" onclick="switchJikanEp(${i+1},this)">${i+1}</button>`).join('');
+  const trailer=a.trailer?.embed_url||'';
+  document.getElementById('modalInner').innerHTML=`
+    <div class="modal-poster-wrap">
+      ${poster?`<img class="modal-poster" src="${poster}" alt="">`:`<div class="modal-poster-ph">🎌</div>`}
+      ${score?`<div class="modal-score-badge">${score}</div>`:''}
+    </div>
+    <div class="modal-info">
+      <div><div class="modal-title-ru">${a.title_russian||a.title}</div><div class="modal-title-jp">${a.title_japanese||''}</div></div>
+      <div class="modal-tags">
+        ${a.type?`<span class="mtag mtag-blue">${a.type}</span>`:''}
+        ${year?`<span class="mtag mtag-gold">${year}</span>`:''}
+        ${a.episodes?`<span class="mtag mtag-gray">${a.episodes} эп.</span>`:''}
+        ${a.status==='Currently Airing'?`<span class="mtag mtag-red">В эфире</span>`:''}
+        ${genres}
+      </div>
+      <p class="modal-desc">${a.synopsis||'Нет описания.'}</p>
+      <div class="player-section">
+        <div class="player-controls">
+          <div class="sel-wrap"><label>Озвучка</label><select id="dubSel" onchange="showToast('🎙 '+this.options[this.selectedIndex].text)">${dubs}</select></div>
+          <div class="sel-wrap"><label>Качество</label><select><option>720p</option><option>1080p</option></select></div>
+        </div>
+        <div class="player-frame" id="playerFrame">
+          ${trailer
+            ?`<iframe src="${trailer}" allowfullscreen allow="autoplay; fullscreen; encrypted-media"></iframe>`
+            :`<div class="player-placeholder"><div class="pp-icon">▶</div><p class="pp-text">Трейлер недоступен для этого тайтла.<br>Нажмите кнопку ниже, чтобы найти его на Anilibria.</p><button class="pp-btn" onclick="searchOnAnilibria('${(a.title||'').replace(/'/g,'').slice(0,40)}')">🔍 Найти на Anilibria</button></div>`
+          }
+        </div>
+        ${eps?`<div class="ep-label">Эпизоды</div><div class="ep-grid" id="epGrid">${epBtns}</div>`:''}
+      </div>
+    </div>`;
+}
+function switchJikanEp(ep,el){curEp=ep;document.querySelectorAll('#epGrid .ep-btn').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');showToast(`📺 Серия ${ep}`);}
+async function searchOnAnilibria(title){
+  try{
+    const d=await apiFetch(`${ANI}/title/search?search=${encodeURIComponent(title)}&limit=1&filter=id,names`);
+    const r=d.list?.[0];
+    if(r){closeModal();await sleep(200);openModal('ani_'+r.id);}
+    else showToast('❌ Не найдено на Anilibria');
+  }catch(e){showToast('❌ Ошибка поиска');}
+}
+ 
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+  if(curHls){curHls.destroy();curHls=null;}
+  curAniId=null;
+}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+ 
+/* ═══ TOAST ═══ */
+let tT;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('show'),2800);}
+ 
+/* ═══ INIT ═══ */
+(async()=>{
+  loadHero();
+  loadAnilibria();
+  await sleep(500);
+  loadTopJikan();
+  await sleep(700);
+  loadCatalog(true);
+})();
+</script>
+</body>
+</html>
+ 
